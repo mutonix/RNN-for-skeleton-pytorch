@@ -18,7 +18,8 @@ class RNN_stacked_block(nn.Module):
     def forward(self, x):
         # x -> (N, L, input_size) 
         # temporal: (N, 100, 75)
-        # spatial: chain -> (N*4, 25, 3*100/4)  traversal -> (N*4, 47, 3*100/4)
+        # spatial: (window_size: 25  L: 100)
+        # chain -> (N*4, 25, 3*100/4)  traversal -> (N*4, 47, 3*100/4)
         x, (hn, cn) = self.bi_lstm(x) # -> (N, L, 512*2)
         x = torch.max(x, dim=1).values  # -> (N, 512*2)
         x = self.dropout(x)
@@ -42,7 +43,7 @@ class RNN_hier_block(nn.Module):
                     bidirectional=True)
             )
         self.rnn_body = nn.LSTM(
-                            part_hid_size * 5 * 2,  # bidirectional
+                            part_hid_size * 5 * 2,  # 5 parts, bidirectional
                             body_hid_size, 
                             num_layers=1,
                             batch_first=True,
@@ -62,7 +63,7 @@ class RNN_hier_block(nn.Module):
         x = self.dropout(x)
         x = self.fc(x)
 
-        return x
+        return x    # -> (N, 60)
 
 # Temporal RNN 
 class Temporal_RNN(nn.Module):
@@ -112,15 +113,15 @@ class Two_Stream_RNN(nn.Module):
     
     def forward(self, x):
         t = self.rnn_temp(x) # -> (N, 60)
-        s = self.rnn_spac(x) # -> (N, 60)
-        s = torch.mean(s.view(t.shape[0], -1, t.shape[1]), dim=1)
+        s = self.rnn_spac(x) # -> (N*100/25, 60) == (N*4, 60)
+        s = torch.mean(s.view(t.shape[0], -1, t.shape[1]), dim=1)   # -> (N, 60)
 
         if not self.modified:
-            score = t * self.w + s * (1 - self.w)
+            score = t * self.w + s * (1 - self.w) # -> (N, 60)
         else:
-            temp_gate = self.sigmod(self.fc_gate(torch.cat([t, s], dim=-1)))
-            spac_gate = self.sigmod(self.fc_gate(torch.cat([t, s], dim=-1)))
-            score = temp_gate * t + spac_gate * s
+            temp_gate = self.sigmod(self.fc_gate(torch.cat([t, s], dim=-1))) # -> (N, 60)
+            spac_gate = self.sigmod(self.fc_gate(torch.cat([t, s], dim=-1))) # -> (N, 60)
+            score = temp_gate * t + spac_gate * s # -> (N, 60)
 
         return score
 

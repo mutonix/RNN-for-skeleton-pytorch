@@ -102,10 +102,11 @@ class Load_ntu_rgbd(object):
                         fid_txt.write(name + '\n')
 
 if __name__ == '__main__':
-    data_path = 'D:/browserdownload/Firefox/nturgbd_skeletons_s001_to_s017/nturgb+d_skeletons2/'
+    # put the missing_skeleton.txt under the directory of "./data" 
+    data_path = 'E:\\NTU-RGBD\\nturgbd_skeletons_s001_to_s017\\nturgb+d_skeletons' # path of your ntu-rgbd dataset
     db = Load_ntu_rgbd(data_path)
 
     trn_list, tst_list = db.cross_subject_split()
     # trn_list, tst_list = db.cross_view_split()
-    db.save_h5_file_skeleton_list('./subj_seq3', trn_list, split='train')
-    db.save_h5_file_skeleton_list('./subj_seq3', tst_list, split='test')
+    db.save_h5_file_skeleton_list('.//ntu-rgbd', trn_list, split='train') # .//ntu-rbgd -> save path of converted dataset
+    db.save_h5_file_skeleton_list('.//ntu_rgbd', tst_list, split='test')

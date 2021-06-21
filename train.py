@@ -13,6 +13,8 @@ import torch.nn as nn
 from data import get_dataloader
 from utils import AverageMeter
 from model import Temporal_RNN, Two_Stream_RNN
+# TODO:
+# from torch.utils.tensorboard import SummaryWriter
 
 logger = logging.getLogger(__name__)
 
@@ -36,7 +38,7 @@ class RNN_Skeleton():
 
         self.model = Two_Stream_RNN(model_type=args.temp_rnn_type, 
                                     seq_type=args.spatial_seq_type, 
-                                    modified=True)
+                                    modified=args.modified)
         self.set_up()
 
     def get_lr_scheduler(self, optimizer, step_size=40, gamma=0.7, last_epoch=-1):
@@ -67,6 +69,7 @@ class RNN_Skeleton():
             self.model.load_state_dict(torch.load(self.resume))
             logger.info("Success loading the pre-trained weights!")
 
+        # TODO: error with the last_epoch: wonder how to fix it to resume lr
         self.lr_scheduler = self.get_lr_scheduler(optimizer, self.lr_decay_step, self.lr_decay_gamma)
 
         loss_func = nn.CrossEntropyLoss()
@@ -80,7 +83,7 @@ class RNN_Skeleton():
         self.best_acc = 0
         for epoch in range(self.epochs):
             train_batch_iter = tqdm(train_dl,
-                        desc="Training (X / X Steps) (loss=X.X)",
+                        desc="Training (X / X epochs) (loss=X.X)",
                         bar_format="{l_bar}{r_bar}",
                         dynamic_ncols=True)
             self.current_epoch = epoch
@@ -182,8 +185,9 @@ if __name__ == "__main__":
     parser.add_argument("--log_save_dir", default="./log", type=str)
     parser.add_argument("--checkpoint_dir", default="./checkpoint", type=str)
     parser.add_argument("--resume", default="", type=str)
-    parser.add_argument("--modified", action="store_true")
-    # parser.add_argument("--last_epoch", default=100, type=int)
+    parser.add_argument("--modified", action="store_true",
+                        help="whether to load the modified model")
+    # parser.add_argument("--last_epoch", default=100, type=int) # resume last epoch not fixed
 
     args = parser.parse_args()
     args.device = torch.device('cuda:0') if torch.cuda.is_available() else torch.device('cpu')

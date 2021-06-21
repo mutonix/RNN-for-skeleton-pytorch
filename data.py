@@ -118,8 +118,7 @@ class Construct_raw_dataset(object):
 
         return X, label
 
-    def make(self):
-        
+    def make(self):       
         trainX, trainY = self.load_sample_step_list(
             self._param['trn_arr_file'],
             self._param['trn_lst_file'],
@@ -130,9 +129,16 @@ class Construct_raw_dataset(object):
             scale=self._param['scale'],
             sub_mean=self._param['sub_mean'])  
 
-        valX, valY = self.load_sample_step_list(self._param['tst_arr_file'], self._param['tst_lst_file'], self._param['num_seq'],
-                data_type="test", step=self._param['step'], start_zero=True, scale=self._param['scale'],
-                sub_mean=self._param['sub_mean'])
+        valX, valY = self.load_sample_step_list(
+            self._param['tst_arr_file'], 
+            self._param['tst_lst_file'], 
+            self._param['num_seq'],
+            data_type="test", 
+            step=self._param['step'], 
+            start_zero=True, 
+            scale=self._param['scale'],
+            sub_mean=self._param['sub_mean'])
+
         return trainX, trainY, valX, valY
 
 def construct_raw_dataset() -> tuple: 
@@ -156,6 +162,7 @@ def get_dataloader(batch_size, eval_batch_size, device):
     train_set, train_labels, test_set, test_labels = raw_dataset
     print("Dataset almost done...")
 
+    # random data test
     # train_set = torch.randn((100, 100, 25, 3)).to(device)
     # train_labels = torch.randint(0, 60, (100,)).to(device)
     # test_set = torch.randn((32, 100, 25, 3)).to(device)
