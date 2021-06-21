@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+# Author:Yang Dongjie, Zhe Li, Jiajie Wu
+
 from torch.optim import lr_scheduler, optimizer
 from utils import AverageMeter
 import numpy as np
@@ -34,6 +38,7 @@ class RNN_Skeleton():
         self.eval_period = args.eval_period
         self.log_save_dir = args.log_save_dir
         self.checkpoint_dir = args.checkpoint_dir
+        self.num_workers = args.num_workers
         self.resume = args.resume
 
         self.model = Two_Stream_RNN(model_type=args.temp_rnn_type, 
@@ -60,8 +65,8 @@ class RNN_Skeleton():
 
     def train(self):
         
-        train_dl, test_dl = get_dataloader(self.batch_size, self.eval_batch_size, self.device)
-        print('\n', self.args)
+        train_dl, test_dl = get_dataloader(self.batch_size, self.eval_batch_size, self.device, self.num_workers)
+        print('\n', self.args, '\n')
 
         optimizer = torch.optim.Adam(self.model.parameters(),
                                      lr=self.lr)
@@ -173,19 +178,22 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     # Required parameters
     parser.add_argument("--task_name", default="train_task1", type=str)
-    parser.add_argument("--temp_rnn_type", default="hierarchical", choices=["stacked", "hierarchical"])
-    parser.add_argument("--spatial_seq_type", default="traversal", choices=["chain", "traversal"])
+    parser.add_argument("--temp_rnn_type", default="hierarchical", choices=["stacked", "hierarchical"],
+                        help="RNN type for Temporal RNN")
+    parser.add_argument("--spatial_seq_type", default="traversal", choices=["chain", "traversal"],
+                        help="Sequence type for Spatial RNN")
     parser.add_argument("--epochs", default=2000, type=int)
     parser.add_argument("--lr", default=1e-3, type=float)
-    parser.add_argument("--batch_size", default=64, type=int)
-    parser.add_argument("--eval_batch_size", default=64, type=int)
+    parser.add_argument("--batch_size", default=64, type=int)   # for tesla v100 512
+    parser.add_argument("--eval_batch_size", default=64, type=int) # for tesla v100 512
     parser.add_argument("--eval_period", default=10, type=int)
     parser.add_argument("--lr_decay_step", default=40, type=int)
     parser.add_argument("--lr_decay_gamma", default=0.7, type=float)
     parser.add_argument("--log_save_dir", default="./log", type=str)
     parser.add_argument("--checkpoint_dir", default="./checkpoint", type=str)
-    parser.add_argument("--resume", default="", type=str)
-    parser.add_argument("--modified", action="store_true",
+    parser.add_argument("--num_workers", default=0, type=int) # num_workers for linux to load dataset, 0 for windows
+    parser.add_argument("--resume", default="", type=str) # path of the last trained weight to resume
+    parser.add_argument("--modified", action="store_true", 
                         help="whether to load the modified model")
     # parser.add_argument("--last_epoch", default=100, type=int) # resume last epoch not fixed
 

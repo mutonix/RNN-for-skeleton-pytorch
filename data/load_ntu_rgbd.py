@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+# Author:Yang Dongjie, Zhe Li, Jiajie Wu
+
 import os
 import numpy as np
 import h5py

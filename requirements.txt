@@ -7,3 +7,4 @@ torchvision>=0.7.0
 tqdm>=4.41.0
 einops
 h5py
+tensorboard

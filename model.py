@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+# Author:Yang Dongjie, Zhe Li, Jiajie Wu
+
 import numpy as np
 import torch
 import torch.nn as nn
@@ -118,6 +122,8 @@ class Two_Stream_RNN(nn.Module):
 
         if not self.modified:
             score = t * self.w + s * (1 - self.w) # -> (N, 60)
+        
+        # self.w modified to learnable parameters (like gates in lstm)
         else:
             temp_gate = self.sigmod(self.fc_gate(torch.cat([t, s], dim=-1))) # -> (N, 60)
             spac_gate = self.sigmod(self.fc_gate(torch.cat([t, s], dim=-1))) # -> (N, 60)

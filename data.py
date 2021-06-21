@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+# Author:Yang Dongjie, Zhe Li, Jiajie Wu
 
 import numpy as np
 import random
@@ -156,13 +159,13 @@ def construct_raw_dataset() -> tuple:
 
     return trainX, trainY, valX, valY
 
-def get_dataloader(batch_size, eval_batch_size, device):
+def get_dataloader(batch_size, eval_batch_size, device, num_workers):
     raw_dataset = construct_raw_dataset()
     raw_dataset = [i.to(device) for i in raw_dataset]
     train_set, train_labels, test_set, test_labels = raw_dataset
     print("Dataset almost done...")
 
-    # random data test
+    """random data for testing"""
     # train_set = torch.randn((100, 100, 25, 3)).to(device)
     # train_labels = torch.randint(0, 60, (100,)).to(device)
     # test_set = torch.randn((32, 100, 25, 3)).to(device)
@@ -170,8 +173,8 @@ def get_dataloader(batch_size, eval_batch_size, device):
 
     train_ds = TensorDataset(train_set, train_labels)
     test_ds = TensorDataset(test_set, test_labels)
-    train_dl = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=0)
-    test_dl = DataLoader(test_ds, batch_size=eval_batch_size, shuffle=True, num_workers=0)
+    train_dl = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=num_workers)
+    test_dl = DataLoader(test_ds, batch_size=eval_batch_size, shuffle=True, num_workers=num_workers)
     print("************ Dataset loaded ************")
 
     return train_dl, test_dl
