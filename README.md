@@ -7,7 +7,7 @@ This repository is final examination of the course *"Deep learning and Computer 
 which is contributed by (18信息工程6班) 杨东杰 李哲 吴嘉杰
 
 **PS**: 如果同学们要**直接**使用这个代码交作业，我们希望你能在作业中说明对我们小组的代码进行了参考。
-（如果是同学们只是参考了这个代码，但是**代码是自己写**的，就不必说明了）
+（如果同学们只是参考了这个代码，但是**代码是自己写**的，就不必说明了）
 ****
 #### How to use
 
@@ -29,6 +29,7 @@ which is contributed by (18信息工程6班) 杨东杰 李哲 吴嘉杰
 
 - Start training
     ```
+    pip install -r requirements.txt
     python train.py --task_name  train_task1 --temp_rnn_type hierarchical --spatial_seq_type traversal --batch_size 512 --eval_batch_size 512 --epochs 2000 --lr 0.001 --eval_period 5 --lr_decay_gamma 0.75 --lr_decay_step 50 
     ```
     More options can be selected in train.py.
@@ -51,7 +52,7 @@ Accuracies on testset won't change after 60 epochs.
 |original paper|cross subject|hierarchical|traversal|0.647|
 |modified by us|cross subject|hierarchical|traversal|0.589|
 
-we modify the model to make the balance between temporal rnn and spatial rnn to be able to learn. However it seems to perform not so well.
+We modify the model to make the balance between temporal rnn and spatial rnn to be able to learn. However it seems to perform not so well.
 
 ### Contact us
 Contact any of the contributors is OK.
