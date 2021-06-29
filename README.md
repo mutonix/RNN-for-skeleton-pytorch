@@ -46,7 +46,7 @@ Results for running for 100 epochs.
 Accuracies on testset won't change after 60 epochs.
 
 |model|evaluation|temporal rnn type + spatial sequence type|accurry|
-|----|----|----|----|----|
+|----|----|----|----|
 |original paper|cross subject|hierarchical + traversal|0.647|
 |modified by us|cross subject|hierarchical + traversal|0.589|
 
