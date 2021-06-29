@@ -4,10 +4,8 @@ Reimplementation in **PyTorch** of **CVPR2017** *'Modeling Temporal Dynamics and
 
 ****
 This repository is final examination of the course *"Deep learning and Computer vison"* in SCUT 
-which is contributed by (18信息工程6班) 杨东杰 李哲 吴嘉杰
+which is contributed by 杨东杰 李哲 吴嘉杰.
 
-**PS**: 如果同学们要**直接**使用这个代码交作业，我们希望你能在作业中说明对我们小组的代码进行了参考。
-（如果同学们只是参考了这个代码，但是**代码是自己写**的，就不必说明了）
 ****
 #### How to use
 
@@ -47,10 +45,10 @@ which is contributed by (18信息工程6班) 杨东杰 李哲 吴嘉杰
 Results for running for 100 epochs. 
 Accuracies on testset won't change after 60 epochs.
 
-|model type|evaluation|temporal rnn type|spatial sequence type|accurry|
+|model|evaluation|temporal rnn type + spatial sequence type|accurry|
 |----|----|----|----|----|
-|original paper|cross subject|hierarchical|traversal|0.647|
-|modified by us|cross subject|hierarchical|traversal|0.589|
+|original paper|cross subject|hierarchical + traversal|0.647|
+|modified by us|cross subject|hierarchical + traversal|0.589|
 
 We modify the model to make the balance between temporal rnn and spatial rnn to be able to learn. However it seems to perform not so well.
 
