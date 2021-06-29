@@ -4,7 +4,7 @@ Reimplementation in **PyTorch** of **CVPR2017** *'Modeling Temporal Dynamics and
 
 ****
 This repository is final examination of the course *"Deep learning and Computer vison"* in SCUT 
-which is contributed by 杨东杰 李哲 吴嘉杰.
+which is contributed by (18信息工程六班) 杨东杰 李哲 吴嘉杰.
 
 ****
 #### How to use
