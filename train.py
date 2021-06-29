@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# Author:Yang Dongjie, Zhe Li, Jiajie Wu
+# Author:Dongjie Yang, Zhe Li, Jiajie Wu
 
 from torch.optim import lr_scheduler, optimizer
 from utils import AverageMeter
