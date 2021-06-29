@@ -47,8 +47,8 @@ Accuracies on testset won't change after 60 epochs.
 
 |model|evaluation|temporal rnn type + spatial sequence type|accurry|
 |----|----|----|----|
-|original paper|cross subject|hierarchical + traversal|0.647|
-|modified by us|cross subject|hierarchical + traversal|0.589|
+|original paper|cross subject|hierarchical + traversal|0.6647|
+|modified by us|cross subject|hierarchical + traversal|0.6156|
 
 We modify the model to make the balance between temporal rnn and spatial rnn to be able to learn. However it seems to perform not so well.
 
