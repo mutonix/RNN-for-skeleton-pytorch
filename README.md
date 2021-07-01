@@ -43,9 +43,9 @@ which is contributed by (18信息工程六班) 杨东杰 李哲 吴嘉杰.
 
 ### Our results
 Results for running for 100 epochs. 
-Accuracies on testset won't change after 60 epochs.
+Accuracy on testset won't change after 60 epochs.
 
-|model|evaluation|temporal rnn type + spatial sequence type|accurry|
+|model|evaluation|temporal rnn type + spatial sequence type|accuracy|
 |:----:|:----:|:----:|:----:|
 |original paper|cross subject|hierarchical + traversal|0.6647|
 |modified by us|cross subject|hierarchical + traversal|0.6156|
