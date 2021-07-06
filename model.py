@@ -110,7 +110,8 @@ class Two_Stream_RNN(nn.Module):
         super().__init__()
         self.rnn_temp = Temporal_RNN(model_type=model_type, num_classes=num_classes)
         self.rnn_spac = Spatial_RNN(window_size=int(100/4), seq_type=seq_type, num_classes=num_classes)
-        self.fc_gate = nn.Linear(num_classes * 2, 1)
+        self.fc_gate1 = nn.Linear(num_classes * 2, 1)
+        self.fc_gate2 = nn.Linear(num_classes * 2, 1)
         self.sigmod = nn.Sigmoid()
         self.modified = modified
         self.w = 0.9
@@ -125,8 +126,8 @@ class Two_Stream_RNN(nn.Module):
         
         # self.w modified to learnable parameters (like gates in lstm)
         else:
-            temp_gate = self.sigmod(self.fc_gate(torch.cat([t, s], dim=-1))) # -> (N, 60)
-            spac_gate = self.sigmod(self.fc_gate(torch.cat([t, s], dim=-1))) # -> (N, 60)
+            temp_gate = self.sigmod(self.fc_gate1(torch.cat([t, s], dim=-1))) # -> (N, 60)
+            spac_gate = self.sigmod(self.fc_gate2(torch.cat([t, s], dim=-1))) # -> (N, 60)
             score = temp_gate * t + spac_gate * s # -> (N, 60)
 
         return score
